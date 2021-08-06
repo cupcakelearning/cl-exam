@@ -1,0 +1,6 @@
+# All available queries on this graphql server
+type Query {
+    # exam
+    exam(id: ID!): Exam
+    exams(first: Int!, after: String): ExamConnection @connection (for: "Exam")
+}

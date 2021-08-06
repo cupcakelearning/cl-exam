@@ -1,0 +1,13 @@
+{
+  "first": 1,
+  "after": "",
+  "examInput": {
+    "name": "exam name",
+    "description": "exam description",
+    "price": 345.6,
+    "subject": "exam subject",
+    "durationInMinutes": 90
+  },
+  "authorId": "c2d29867-3d0b-d497-9191-18a9d8ee7830",
+  "examId": "435f92b4-fa5a-46d9-ac99-398cd3c6c24b"
+}

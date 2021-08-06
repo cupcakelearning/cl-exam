@@ -1,0 +1,25 @@
+graphql:
+  servlet:
+    exception-handlers-enabled: true
+  playground:
+    tabs:
+      - name: Question query
+        query: classpath:playground/exam.graphql
+        variables: classpath:playground/examVariables.json
+
+spring:
+  user-datasource:
+    platform: POSTGRESQL
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://cupcakelearning.cyqsklq9p761.ap-southeast-1.rds.amazonaws.com:5432/tmp_auth
+    username: cupcakelearning
+    password: cupcakelearning
+  exam-datasource:
+    platform: POSTGRESQL
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://cupcakelearning.cyqsklq9p761.ap-southeast-1.rds.amazonaws.com:5432/exam
+    username: cupcakelearning
+    password: cupcakelearning
+  jpa:
+    generate-ddl: true
+    hibernate.ddl-auto: create

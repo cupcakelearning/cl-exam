@@ -1,0 +1,74 @@
+query exam($examId: ID!) {
+    exam(id: $examId) {
+        id
+        authorId
+        name
+        description
+        price
+        subject
+        durationInMinutes
+    }
+}
+
+query exam_pagination($first: Int!, $after: String) {
+    exams(first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                id
+                authorId
+                name
+                description
+                price
+                subject
+                durationInMinutes
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}
+
+mutation exam_add($authorId: ID!, $examInput: ExamInput!) {
+    addExam(authorId: $authorId, input: $examInput) {
+        id
+        name
+        description
+        price
+        subject
+        durationInMinutes
+    }
+}
+
+mutation exam_update($examId: ID!, $examInput: ExamInput!) {
+    updateExam(examId: $examId, input: $examInput) {
+        id
+        name
+        description
+        price
+        subject
+        durationInMinutes
+    }
+}
+
+# Activate
+mutation exam_publish($examId: ID!) {
+    publishExam(examId: $examId) {
+        id
+        name
+        isActive
+    }
+}
+
+# Deactivate
+mutation exam_cancel($examId: ID!) {
+    cancelExam(examId: $examId) {
+        id
+        name
+        isActive
+    }
+}
