@@ -2,7 +2,7 @@
 type Mutation {
     #exam
     addExam(authorId: ID!, input: ExamInput!): Exam!
-    updateExam(examId: ID!, input: ExamInput!): Exam!
-    publishExam(examId: ID!): Exam!
-    cancelExam(examId: ID!): Exam!
+    updateExam(id: ID!, authorId: ID!, input: ExamInput!): Exam!
+    publishExam(id: ID!, authorId: ID!): Exam!
+    cancelExam(id: ID!, authorId: ID!): Exam!
 }

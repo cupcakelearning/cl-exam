@@ -44,8 +44,8 @@ mutation exam_add($authorId: ID!, $examInput: ExamInput!) {
     }
 }
 
-mutation exam_update($examId: ID!, $examInput: ExamInput!) {
-    updateExam(examId: $examId, input: $examInput) {
+mutation exam_update($examId: ID!, $authorId: ID!, $examInput: ExamInput!) {
+    updateExam(id: $examId, authorId: $authorId, input: $examInput) {
         id
         name
         description
@@ -56,8 +56,8 @@ mutation exam_update($examId: ID!, $examInput: ExamInput!) {
 }
 
 # Activate
-mutation exam_publish($examId: ID!) {
-    publishExam(examId: $examId) {
+mutation exam_publish($examId: ID!, $authorId: ID!) {
+    publishExam(id: $examId, authorId: $authorId) {
         id
         name
         isActive
@@ -65,8 +65,8 @@ mutation exam_publish($examId: ID!) {
 }
 
 # Deactivate
-mutation exam_cancel($examId: ID!) {
-    cancelExam(examId: $examId) {
+mutation exam_cancel($examId: ID!, $authorId: ID!) {
+    cancelExam(id: $examId, authorId: $authorId) {
         id
         name
         isActive

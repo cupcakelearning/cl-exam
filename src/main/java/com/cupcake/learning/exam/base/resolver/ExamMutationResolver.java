@@ -8,6 +8,7 @@ import com.cupcake.learning.exam.base.repository.ExamRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -32,22 +33,24 @@ public class ExamMutationResolver implements GraphQLMutationResolver {
         return examRepository.save(exam);
     }
 
-    public Exam updateExam(UUID examId, ExamInput input) {
-        var exam = examRepository.findById(examId)
+    // TODO: Add following logic once we can get current user info.
+    // If current user is normal user, check if authorId matches.
+    public Exam updateExam(UUID id, UUID authorId, ExamInput input) {
+        var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
         mapper.map(input, exam);
         return examRepository.save(exam);
     }
 
-    public Exam publishExam(UUID examId) {
-        var exam = examRepository.findById(examId)
+    public Exam publishExam(UUID id, UUID authorId) {
+        var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
         exam.setActive(true);
         return examRepository.save(exam);
     }
 
-    public Exam cancelExam(UUID examId) {
-        var exam = examRepository.findById(examId)
+    public Exam cancelExam(UUID id, UUID authorId) {
+        var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
         exam.setActive(false);
         return examRepository.save(exam);
