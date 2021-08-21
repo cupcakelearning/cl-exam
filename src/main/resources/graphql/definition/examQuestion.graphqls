@@ -1,0 +1,9 @@
+type ExamQuestion {
+    id: ExamQuestionId
+    positionIndex: Int
+}
+
+type ExamQuestionId {
+    examId: ID
+    questionId: ID
+}

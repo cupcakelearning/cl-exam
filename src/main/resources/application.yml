@@ -3,9 +3,12 @@ graphql:
     exception-handlers-enabled: true
   playground:
     tabs:
-      - name: Question query
+      - name: Exam query
         query: classpath:playground/exam.graphql
-        variables: classpath:playground/examVariables.json
+        variables: classpath:playground/exam.json
+      - name: Exam Question query
+        query: classpath:playground/examQuestion.graphql
+        variables: classpath:playground/examQuestion.json
 
 spring:
   user-datasource:
@@ -23,3 +26,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate.ddl-auto: create
+
+dynamodb:
+  endpoint: dynamodb.ap-southeast-1.amazonaws.com
+  region: ap-southeast-1

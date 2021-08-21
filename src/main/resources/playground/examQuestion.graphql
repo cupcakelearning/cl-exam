@@ -1,0 +1,20 @@
+# Pagination not recommended; An exam wouldn't have 50+ questions anyway.
+query examQuestions($examId: ID!) {
+    examQuestions(id: $examId) {
+        id {
+            examId
+            questionId
+        }
+        positionIndex
+    }
+}
+
+mutation setExamQuestions($examId: ID!, $authorId: ID!, $questionIds: [ID!]!) {
+    setExamQuestions(id: $examId, authorId: $authorId, questionIds: $questionIds) {
+        id {
+            examId
+            questionId
+        }
+        positionIndex
+    }
+}

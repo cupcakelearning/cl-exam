@@ -3,4 +3,7 @@ type Query {
     # exam
     exam(id: ID!): Exam
     exams(first: Int!, after: String): ExamConnection @connection (for: "Exam")
+
+    # exam question
+    examQuestions(id: ID!): [ExamQuestion!]
 }

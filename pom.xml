@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<graphql.version>11.1.0</graphql.version>
+		<dynamodb.version>5.2.5</dynamodb.version>
 		<modelmapper.version>2.3.7</modelmapper.version>
 	</properties>
 	<dependencies>
@@ -44,6 +45,13 @@
 			<artifactId>playground-spring-boot-starter</artifactId>
 			<version>${graphql.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- DynamoDb -->
+		<dependency>
+			<groupId>io.github.boostchicken</groupId>
+			<artifactId>spring-data-dynamodb</artifactId>
+			<version>${dynamodb.version}</version>
 		</dependency>
 
 		<!-- Model mapper -->

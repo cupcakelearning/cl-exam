@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Exam {
     @Id
     @GeneratedValue
-    public UUID id;
+    private UUID id;
     private UUID authorId;
     private String name;
     private String description;
