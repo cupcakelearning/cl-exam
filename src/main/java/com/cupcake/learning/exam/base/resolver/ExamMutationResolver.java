@@ -40,6 +40,7 @@ public class ExamMutationResolver implements GraphQLMutationResolver {
 
     // TODO: Add following logic once we can get current user info.
     // If current user is normal user, check if authorId matches.
+    // Affected: updateExam, publishExam, cancelExam
     public Exam updateExam(UUID id, UUID authorId, ExamInput input) {
         var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));

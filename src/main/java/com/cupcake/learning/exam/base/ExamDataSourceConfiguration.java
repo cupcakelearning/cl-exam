@@ -1,6 +1,7 @@
 package com.cupcake.learning.exam.base;
 
 import com.cupcake.learning.exam.base.model.entity.Exam;
+import com.cupcake.learning.exam.base.model.entity.ExamQuestion;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -45,7 +46,7 @@ public class ExamDataSourceConfiguration {
 
         return builder
                 .dataSource(examDataSource())
-                .packages(Exam.class)
+                .packages(Exam.class, ExamQuestion.class)
                 .build();
     }
 
