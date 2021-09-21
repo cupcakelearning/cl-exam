@@ -55,10 +55,6 @@ mutation exam_update($examId: ID!, $authorId: ID!, $examInput: ExamInput!) {
     }
 }
 
-mutation exam_delete($examId: ID!, $authorId: ID!) {
-    deleteExam(id: $examId, authorId: $authorId)
-}
-
 # Activate
 mutation exam_publish($examId: ID!, $authorId: ID!) {
     publishExam(id: $examId, authorId: $authorId) {
