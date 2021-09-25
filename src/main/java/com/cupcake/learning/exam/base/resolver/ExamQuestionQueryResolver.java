@@ -1,7 +1,7 @@
 package com.cupcake.learning.exam.base.resolver;
 
-import com.cupcake.learning.exam.base.model.entity.ExamQuestion;
-import com.cupcake.learning.exam.base.repository.ExamQuestionRepository;
+import com.cupcake.learning.exam.base.model.entity.postgres.ExamQuestion;
+import com.cupcake.learning.exam.base.repository.postgres.ExamQuestionRepository;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.stereotype.Component;
 

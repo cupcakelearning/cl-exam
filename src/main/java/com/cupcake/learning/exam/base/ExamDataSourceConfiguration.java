@@ -1,7 +1,7 @@
 package com.cupcake.learning.exam.base;
 
-import com.cupcake.learning.exam.base.model.entity.Exam;
-import com.cupcake.learning.exam.base.model.entity.ExamQuestion;
+import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
+import com.cupcake.learning.exam.base.model.entity.postgres.ExamQuestion;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.cupcake.learning.exam.base.repository",
+        basePackages = "com.cupcake.learning.exam.base.repository.postgres",
         entityManagerFactoryRef = "examEntityManager",
         transactionManagerRef = "examTransactionManager")
 public class ExamDataSourceConfiguration {

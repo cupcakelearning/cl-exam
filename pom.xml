@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<graphql.version>11.1.0</graphql.version>
+		<graphql.scalars.version>16.0.1</graphql.scalars.version>
 		<dynamodb.version>5.2.5</dynamodb.version>
 		<modelmapper.version>2.3.7</modelmapper.version>
 	</properties>
@@ -45,6 +46,13 @@
 			<artifactId>playground-spring-boot-starter</artifactId>
 			<version>${graphql.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!--  -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-extended-scalars</artifactId>
+			<version>${graphql.scalars.version}</version>
 		</dependency>
 
 		<!-- DynamoDb -->

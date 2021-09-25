@@ -3,9 +3,14 @@ type Mutation {
     #exam
     addExam(authorId: ID!, input: ExamInput!): Exam!
     updateExam(id: ID!, authorId: ID!, input: ExamInput!): Exam!
-    publishExam(id: ID!, authorId: ID!): Exam!
-    cancelExam(id: ID!, authorId: ID!): Exam!
+    freezeExam(id: ID!, authorId: ID!): ID!
+    unfreezeExam(id: ID!, authorId: ID!): Exam!
 
     #exam question
     setExamQuestions(id: ID!, authorId: ID!, questionIds: [ID!]!): [ExamQuestion!]!
+
+    #published exam
+    publishExam(examId: ID!, authorId: ID!): PublishedExamMetaData!
+    unpublishExam(publishedExamId: ID!, authorId: ID!): ID!
+    republishExam(publishedExamId: ID!, authorId: ID!): PublishedExamMetaData!
 }

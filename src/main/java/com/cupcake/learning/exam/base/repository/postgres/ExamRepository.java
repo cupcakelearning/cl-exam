@@ -1,6 +1,6 @@
-package com.cupcake.learning.exam.base.repository;
+package com.cupcake.learning.exam.base.repository.postgres;
 
-import com.cupcake.learning.exam.base.model.entity.Exam;
+import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

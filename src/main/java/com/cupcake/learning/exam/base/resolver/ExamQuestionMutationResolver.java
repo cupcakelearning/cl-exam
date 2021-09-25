@@ -1,15 +1,14 @@
 package com.cupcake.learning.exam.base.resolver;
 
-import com.cupcake.learning.exam.base.model.entity.ExamQuestion;
-import com.cupcake.learning.exam.base.repository.ExamQuestionRepository;
-import com.cupcake.learning.exam.base.repository.ExamRepository;
+import com.cupcake.learning.exam.base.model.entity.postgres.ExamQuestion;
+import com.cupcake.learning.exam.base.repository.postgres.ExamQuestionRepository;
+import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.cupcake.learning.exam.question.repository.QuestionRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

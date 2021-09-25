@@ -1,32 +1,41 @@
-package com.cupcake.learning.exam.base.model.entity;
+package com.cupcake.learning.exam.base.model.entity.postgres;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "exam", schema = "public")
-public class Exam {
+@Table(name = "publishedexam_to_metadata", schema = "public")
+public class PublishedExamMetaData {
     @Id
-    @GeneratedValue
-    private UUID id;
+    private UUID publishedExamId;
+    private UUID examId;
     private UUID authorId;
     private String name;
     private String description;
     private BigDecimal price;
     private String subject;
     private Integer durationInMinutes;
+    private OffsetDateTime publishedDateTime;
     private Boolean isActive;
 
-    public UUID getId() {
-        return id;
+    public UUID getPublishedExamId() {
+        return publishedExamId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setPublishedExamId(UUID publishedExamId) {
+        this.publishedExamId = publishedExamId;
+    }
+
+    public UUID getExamId() {
+        return examId;
+    }
+
+    public void setExamId(UUID examId) {
+        this.examId = examId;
     }
 
     public UUID getAuthorId() {
@@ -75,6 +84,14 @@ public class Exam {
 
     public void setDurationInMinutes(Integer durationInMinutes) {
         this.durationInMinutes = durationInMinutes;
+    }
+
+    public OffsetDateTime getPublishedDateTime() {
+        return publishedDateTime;
+    }
+
+    public void setPublishedDateTime(OffsetDateTime publishedDateTime) {
+        this.publishedDateTime = publishedDateTime;
     }
 
     public Boolean getActive() {

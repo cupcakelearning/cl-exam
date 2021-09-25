@@ -1,17 +1,13 @@
 package com.cupcake.learning.exam.base.resolver;
 
-import com.cupcake.learning.exam.base.model.entity.Exam;
-import com.cupcake.learning.exam.base.model.entity.ExamQuestion;
-import com.cupcake.learning.exam.base.repository.ExamQuestionRepository;
-import com.cupcake.learning.exam.util.PatchModelMapper;
 import com.cupcake.learning.exam.auth.repository.UserRepository;
+import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import com.cupcake.learning.exam.base.model.input.ExamInput;
-import com.cupcake.learning.exam.base.repository.ExamRepository;
+import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
+import com.cupcake.learning.exam.util.PatchModelMapper;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -35,12 +31,13 @@ public class ExamMutationResolver implements GraphQLMutationResolver {
         var exam = new Exam();
         mapper.map(input, exam);
         exam.setAuthorId(authorId);
+        exam.setActive(true);
         return examRepository.save(exam);
     }
 
     // TODO: Add following logic once we can get current user info.
     // If current user is normal user, check if authorId matches.
-    // Affected: updateExam, publishExam, cancelExam
+    // Affected: updateExam, freezeExam, unfreezeExam
     public Exam updateExam(UUID id, UUID authorId, ExamInput input) {
         var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
@@ -48,17 +45,19 @@ public class ExamMutationResolver implements GraphQLMutationResolver {
         return examRepository.save(exam);
     }
 
-    public Exam publishExam(UUID id, UUID authorId) {
+    public UUID freezeExam(UUID id, UUID authorId) {
         var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
-        exam.setActive(true);
-        return examRepository.save(exam);
+
+        exam.setActive(false);
+        return id;
     }
 
-    public Exam cancelExam(UUID id, UUID authorId) {
+    public Exam unfreezeExam(UUID id, UUID authorId) {
         var exam = examRepository.findByIdAndAuthorId(id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
-        exam.setActive(false);
+
+        exam.setActive(true);
         return examRepository.save(exam);
     }
 }

@@ -55,18 +55,14 @@ mutation exam_update($examId: ID!, $authorId: ID!, $examInput: ExamInput!) {
     }
 }
 
-# Activate
-mutation exam_publish($examId: ID!, $authorId: ID!) {
-    publishExam(id: $examId, authorId: $authorId) {
-        id
-        name
-        isActive
-    }
+# Deactivate ( Archive; Soft - delete )
+mutation exam_freeze($examId: ID!, $authorId: ID!) {
+    freezeExam(id: $examId, authorId: $authorId)
 }
 
-# Deactivate
-mutation exam_cancel($examId: ID!, $authorId: ID!) {
-    cancelExam(id: $examId, authorId: $authorId) {
+# Activate
+mutation exam_unfreeze($examId: ID!, $authorId: ID!) {
+    unfreezeExam(id: $examId, authorId: $authorId) {
         id
         name
         isActive

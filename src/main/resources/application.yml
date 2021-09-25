@@ -12,6 +12,9 @@ graphql:
       - name: Exam Question query
         query: classpath:playground/examQuestion.graphql
         variables: classpath:playground/examQuestion.json
+      - name: Published Exam Question
+        query: classpath:playground/publishedExam.graphql
+        variables: classpath:playground/publishedExam.json
 
 spring:
   user-datasource:

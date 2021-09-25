@@ -1,0 +1,103 @@
+query published_exam_pagination($first: Int!, $after: String) {
+    publishedExamsForSale(first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                publishedExamId
+                authorId
+                name
+                description
+                subject
+                durationInMinutes
+                examId
+                price
+                publishedDateTime
+                isActive
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}
+
+query published_exam_get_published_exams($examId: ID!) {
+    publishedExamsForExam(examId: $examId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}
+
+query published_exam_get_content($publishedExamId: ID!) {
+    publishedExam(publishedExamId: $publishedExamId) {
+        id
+        authorId
+        name
+        description
+        price
+        subject
+        durationInMinutes
+        questions {
+            id
+            authorId
+            type
+            text
+            diagramLink
+            subject
+            level
+            options {
+                text
+                correctIndex
+                isCorrect
+            }
+        }
+    }
+}
+
+# Create snapshot & activate it ( Put on sales )
+mutation exam_publish($examId: ID!, $authorId: ID!) {
+    publishExam(examId: $examId, authorId: $authorId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}
+
+# Deactivate ( Taken off sales )
+mutation exam_unpublish($publishedExamId: ID!, $authorId: ID!) {
+    unpublishExam(publishedExamId: $publishedExamId, authorId: $authorId)
+}
+
+# Activate ( Put back on sales )
+mutation exam_republish($publishedExamId: ID!, $authorId: ID!) {
+    republishExam(publishedExamId: $publishedExamId, authorId: $authorId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}

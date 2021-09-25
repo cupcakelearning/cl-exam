@@ -1,4 +1,4 @@
-package com.cupcake.learning.exam.base.model.entity;
+package com.cupcake.learning.exam.base.model.entity.postgres;
 
 import javax.persistence.*;
 import java.io.Serializable;

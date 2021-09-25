@@ -1,8 +1,8 @@
 package com.cupcake.learning.exam.base.resolver;
 
-import com.cupcake.learning.exam.base.model.entity.Exam;
+import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import com.cupcake.learning.exam.util.CursorEncoder;
-import com.cupcake.learning.exam.base.repository.ExamRepository;
+import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.*;
 import io.micrometer.core.lang.Nullable;
@@ -27,7 +27,7 @@ public class ExamQueryResolver implements GraphQLQueryResolver {
 
     public Exam exam(UUID id) {
         return examRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Unable to find given book"));
+                .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
     }
 
     public Connection<Exam> exams(int first, @Nullable String cursor) {

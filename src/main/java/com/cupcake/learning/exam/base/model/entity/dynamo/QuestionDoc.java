@@ -1,12 +1,15 @@
-package com.cupcake.learning.exam.question.model.entity;
+package com.cupcake.learning.exam.base.model.entity.dynamo;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.cupcake.learning.exam.question.model.entity.Option;
+import com.cupcake.learning.exam.question.model.entity.QuestionType;
+import com.cupcake.learning.exam.question.model.entity.QuestionTypeConverter;
 
 import java.util.List;
 import java.util.UUID;
 
-@DynamoDBTable(tableName = "question")
-public class Question {
+@DynamoDBDocument
+public class QuestionDoc {
     private UUID id;
     private UUID authorId;
     private QuestionType type;

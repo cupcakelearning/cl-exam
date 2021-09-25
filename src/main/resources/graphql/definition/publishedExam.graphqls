@@ -1,0 +1,47 @@
+scalar JSON
+scalar DateTime
+
+enum QuestionType {
+    MCQ, FILL_IN_THE_BLANK
+}
+
+type PublishedExamMetaData {
+    publishedExamId: ID
+    examId: ID
+    authorId: ID
+    name: String
+    description: String
+    price: Float
+    subject: String
+    durationInMinutes: Int
+    publishedDateTime: DateTime
+    isActive: Boolean
+}
+
+type PublishedExam {
+    id: ID
+    authorId: ID
+    name: String
+    description: String
+    price: Float
+    subject: String
+    durationInMinutes: Int
+    questions: [Question!]
+}
+
+type Question {
+    id: ID
+    authorId: ID
+    type: QuestionType
+    text: String
+    diagramLink: String
+    subject: String
+    level: Int
+    options: [Option]
+}
+
+type Option {
+    text: String
+    correctIndex: Int
+    isCorrect: Boolean
+}
