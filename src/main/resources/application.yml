@@ -40,3 +40,8 @@ spring:
 dynamodb:
   endpoint: dynamodb.ap-southeast-1.amazonaws.com
   region: ap-southeast-1
+
+s3:
+  bucket: cupcake.learning.diagrams
+  endpoint: s3.ap-southeast-1.amazonaws.com
+  region: ap-southeast-1

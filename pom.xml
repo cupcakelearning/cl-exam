@@ -48,7 +48,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!--  -->
+		<!-- GraphQL extended scalar - for DateTime -->
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-extended-scalars</artifactId>

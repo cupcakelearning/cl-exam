@@ -11,6 +11,7 @@ import com.cupcake.learning.exam.base.repository.postgres.PublishedExamMetaDataR
 import com.cupcake.learning.exam.question.model.entity.Question;
 import com.cupcake.learning.exam.question.repository.QuestionRepository;
 import com.cupcake.learning.exam.util.PatchModelMapper;
+import com.cupcake.learning.exam.util.S3Utils;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     private final PatchModelMapper mapper;
+    private final S3Utils s3Utils;
     private final QuestionRepository questionRepository;
     private final ExamRepository examRepository;
     private final ExamQuestionRepository examQuestionRepository;
@@ -30,12 +32,14 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     private final PublishedExamRepository publishedExamRepository;
 
     public PublishedExamMutationResolver(PatchModelMapper mapper,
+                                         S3Utils s3Utils,
                                          QuestionRepository questionRepository,
                                          ExamRepository examRepository,
                                          ExamQuestionRepository examQuestionRepository,
                                          PublishedExamMetaDataRepository publishedExamMetaDataRepository,
                                          PublishedExamRepository publishedExamRepository) {
         this.mapper = mapper;
+        this.s3Utils = s3Utils;
         this.questionRepository = questionRepository;
         this.examRepository = examRepository;
         this.examQuestionRepository = examQuestionRepository;
@@ -50,17 +54,10 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     // 4. [DONE] Implement freeze / unfreeze for exam
     // 5. [DONE] Query for active published exams (to buy)
     // 6. [DONE] Query for published exam via exam id (& vice versa)
-    // 7. Change freeze / unfreeze to delete exam. [ Soft-delete; User no longer have access but store in database]
-    // 8. Add "active" checks for exams operations.
-    // 9. Retrieve only "active" exams.
-
-    // TODO: For question locking
-    // 1. Numeric versioning for image upload. (uuid_version_fileName) [Question project]
-    //      1.a. Delete current linked image.
-    //      1.b. Upload new image.
-    // 2. Copy images to "published" folder.
-    //      2.a. Check if image exists.
-    //      2.b. Add if not found.
+    // 7. [DONE] Lock question images. Add modified date time to file name and shift to published folder.
+    // 8. Change freeze / unfreeze to delete exam. [ Soft-delete; User no longer have access but store in database]
+    // 9. Add "active" checks for exams operations.
+    // 10. Retrieve only "active" exams.
 
     public PublishedExamMetaData publishExam(UUID examId, UUID authorId) {
         Exam exam = getExam(examId, authorId);
@@ -71,6 +68,7 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
         publishedExam.setQuestions(questionDocs);
         publishedExam.setId(null);  // To let database autogenerate
 
+        publishQuestionDiagrams(questionDocs);
         PublishedExam savedContent = publishedExamRepository.save(publishedExam);
         return savePublishedExamMetaData(exam, savedContent.getId());
     }
@@ -117,6 +115,17 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
                     return questionDoc;
                 })
                 .collect(Collectors.toList());
+    }
+
+    private void publishQuestionDiagrams(List<QuestionDoc> questionDocs) {
+        questionDocs.stream()
+                .filter(questionDoc ->
+                        questionDoc.getDiagramLink() != null
+                                && !questionDoc.getDiagramLink().isBlank())
+                .forEach(questionDoc -> {
+                    var publishedLink = s3Utils.publishFile(questionDoc.getDiagramLink());
+                    questionDoc.setDiagramLink(publishedLink);
+                });
     }
 
     private PublishedExamMetaData savePublishedExamMetaData(Exam exam, UUID publishedId) {
