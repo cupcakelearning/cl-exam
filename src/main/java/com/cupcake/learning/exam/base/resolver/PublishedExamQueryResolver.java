@@ -41,12 +41,13 @@ public class PublishedExamQueryResolver implements GraphQLQueryResolver {
         if (cursor == null || cursor.isBlank()) {
             pageResult = publishedExamMetaDataRepository.findByIsActiveOrderByPublishedDateTimeDesc(true, pageable);
         } else {
-            pageResult = publishedExamMetaDataRepository.findByPublishedExamIdAndIsActiveAfterOrderByPublishedDateTimeDesc(true, pageable, cursorEncoder.decode(cursor));
+            pageResult = publishedExamMetaDataRepository.findByIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc
+                    (true, pageable, cursorEncoder.decodeDateTimeCursor(cursor));
         }
 
         List<Edge<PublishedExamMetaData>> edges = pageResult.getContent()
                 .stream()
-                .map(metaData -> new DefaultEdge<>(metaData, cursorEncoder.createCursorWith(metaData.getPublishedExamId())))
+                .map(metaData -> new DefaultEdge<>(metaData, cursorEncoder.createCursorWith(metaData.getPublishedDateTime())))
                 .collect(Collectors.toList());
 
         var pageInfo = new DefaultPageInfo(

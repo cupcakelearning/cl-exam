@@ -6,6 +6,7 @@ import graphql.relay.Edge;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,15 @@ public class CursorEncoder {
 
   public UUID decode(String cursor) {
     return UUID.fromString(new String(Base64.getDecoder().decode(cursor)));
+  }
+
+  public ConnectionCursor createCursorWith(OffsetDateTime offsetDateTime) {
+    return new DefaultConnectionCursor(
+            Base64.getEncoder().encodeToString(offsetDateTime.toString().getBytes(StandardCharsets.UTF_8)));
+  }
+
+  public OffsetDateTime decodeDateTimeCursor(String cursor) {
+    return OffsetDateTime.parse(new String(Base64.getDecoder().decode(cursor)));
   }
 
   public <T> ConnectionCursor getFirstCursorFrom(List<Edge<T>> edges) {

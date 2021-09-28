@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public interface PublishedExamMetaDataRepository extends JpaRepository<Published
     Optional<PublishedExamMetaData> findByPublishedExamIdAndAuthorId(UUID publishedExamId, UUID authorId);
 
     Page<PublishedExamMetaData> findByIsActiveOrderByPublishedDateTimeDesc(boolean isActive, Pageable pageable);
-    Page<PublishedExamMetaData> findByPublishedExamIdAndIsActiveAfterOrderByPublishedDateTimeDesc(boolean isActive, Pageable pageable, UUID publishedExamId);
+    Page<PublishedExamMetaData> findByIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc(boolean isActive, Pageable pageable, OffsetDateTime publishedDateTime);
 
     List<PublishedExamMetaData> findByExamId(UUID examId);
 }
