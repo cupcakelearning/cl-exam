@@ -39,25 +39,18 @@ public class ExamMutationResolver implements GraphQLMutationResolver {
     // If current user is normal user, check if authorId matches.
     // Affected: updateExam, freezeExam, unfreezeExam
     public Exam updateExam(UUID id, UUID authorId, ExamInput input) {
-        var exam = examRepository.findByIdAndAuthorId(id, authorId)
+        var exam = examRepository.findByIsActiveAndIdAndAuthorId(true, id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
         mapper.map(input, exam);
         return examRepository.save(exam);
     }
 
     public UUID freezeExam(UUID id, UUID authorId) {
-        var exam = examRepository.findByIdAndAuthorId(id, authorId)
+        var exam = examRepository.findByIsActiveAndIdAndAuthorId(true, id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
 
         exam.setActive(false);
+        examRepository.save(exam);
         return id;
-    }
-
-    public Exam unfreezeExam(UUID id, UUID authorId) {
-        var exam = examRepository.findByIdAndAuthorId(id, authorId)
-                .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
-
-        exam.setActive(true);
-        return examRepository.save(exam);
     }
 }

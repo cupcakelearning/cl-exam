@@ -27,7 +27,7 @@ public class ExamQuestionMutationResolver implements GraphQLMutationResolver {
     }
 
     public List<ExamQuestion> setExamQuestions(UUID id, UUID authorId, List<UUID> questionIds) {
-        if (!examRepository.existsByIdAndAuthorId(id, authorId))
+        if (!examRepository.existsByIsActiveAndIdAndAuthorId(true, id, authorId))
             throw new RuntimeException("Unable to find given exam");
 
         // Check if questions exists.

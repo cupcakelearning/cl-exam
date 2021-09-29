@@ -26,7 +26,7 @@ public class ExamQueryResolver implements GraphQLQueryResolver {
     }
 
     public Exam exam(UUID id) {
-        return examRepository.findById(id)
+        return examRepository.findByIsActiveAndId(true, id)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
     }
 
@@ -34,9 +34,9 @@ public class ExamQueryResolver implements GraphQLQueryResolver {
         Pageable pageable = PageRequest.of(0, first < 1 ? 20 : first);
         Page<Exam> pageResult;
         if (cursor == null || cursor.isBlank()) {
-            pageResult = examRepository.findByOrderByIdAsc(pageable);
+            pageResult = examRepository.findByIsActiveOrderByIdAsc(true, pageable);
         } else {
-            pageResult = examRepository.findByIdAfterOrderByIdAsc(pageable, cursorEncoder.decode(cursor));
+            pageResult = examRepository.findByIsActiveAndIdAfterOrderByIdAsc(true, pageable, cursorEncoder.decode(cursor));
         }
 
         List<Edge<Exam>> edges = pageResult.getContent()

@@ -55,9 +55,9 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     // 5. [DONE] Query for active published exams (to buy)
     // 6. [DONE] Query for published exam via exam id (& vice versa)
     // 7. [DONE] Lock question images. Add modified date time to file name and shift to published folder.
-    // 8. Change freeze / unfreeze to delete exam. [ Soft-delete; User no longer have access but store in database]
-    // 9. Add "active" checks for exams operations.
-    // 10. Retrieve only "active" exams.
+    // 8. [DONE] Change freeze to delete exam. [ Soft-delete; User no longer have access but store in database]
+    // 9. [DONE] Add "active" checks for exams operations.
+    // 10. [DONE] Retrieve only "active" exams.
 
     public PublishedExamMetaData publishExam(UUID examId, UUID authorId) {
         Exam exam = getExam(examId, authorId);
@@ -91,7 +91,7 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     }
 
     private Exam getExam(UUID id, UUID authorId) {
-        var exam = examRepository.findByIdAndAuthorId(id, authorId)
+        var exam = examRepository.findByIsActiveAndIdAndAuthorId(true, id, authorId)
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
 
         if (exam.getPrice() == null || exam.getPrice().compareTo(BigDecimal.ZERO) <= 0)

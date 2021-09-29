@@ -4,7 +4,6 @@ type Mutation {
     addExam(authorId: ID!, input: ExamInput!): Exam!
     updateExam(id: ID!, authorId: ID!, input: ExamInput!): Exam!
     freezeExam(id: ID!, authorId: ID!): ID!
-    unfreezeExam(id: ID!, authorId: ID!): Exam!
 
     #exam question
     setExamQuestions(id: ID!, authorId: ID!, questionIds: [ID!]!): [ExamQuestion!]!

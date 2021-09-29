@@ -59,12 +59,3 @@ mutation exam_update($examId: ID!, $authorId: ID!, $examInput: ExamInput!) {
 mutation exam_freeze($examId: ID!, $authorId: ID!) {
     freezeExam(id: $examId, authorId: $authorId)
 }
-
-# Activate
-mutation exam_unfreeze($examId: ID!, $authorId: ID!) {
-    unfreezeExam(id: $examId, authorId: $authorId) {
-        id
-        name
-        isActive
-    }
-}
