@@ -10,8 +10,7 @@ public class Question {
     private UUID id;
     private UUID authorId;
     private QuestionType type;
-    private String text;
-    private String diagramLink;
+    private String content;
     private String subject;
     private Integer level;
     private List<Option> options;
@@ -45,21 +44,12 @@ public class Question {
     }
 
     @DynamoDBAttribute
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @DynamoDBAttribute
-    public String getDiagramLink() {
-        return diagramLink;
-    }
-
-    public void setDiagramLink(String diagramLink) {
-        this.diagramLink = diagramLink;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @DynamoDBAttribute

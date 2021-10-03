@@ -1,5 +1,6 @@
 package com.cupcake.learning.exam.util;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,21 +19,29 @@ public class S3Utils {
     }
 
     public String publishFile(String diagramLink) {
+        if (!diagramLink.contains(bucket))
+            return "";
+
         var startBucketPos = diagramLink.indexOf(bucket);
         var endBucketPos = diagramLink.substring(startBucketPos).indexOf("/");
         var fileName = diagramLink.substring(startBucketPos + endBucketPos + 1);
-        var publishedFileName = getPublishedFileName(fileName);
 
-        if (!amazonS3Client.doesObjectExist(bucket, publishedFileName)) {
-            amazonS3Client.copyObject(
-                    bucket, fileName,
-                    bucket, publishedFileName);
+        try {
+            var publishedFileName = getPublishedFileName(fileName);
+
+            if (!amazonS3Client.doesObjectExist(bucket, publishedFileName)) {
+                amazonS3Client.copyObject(
+                        bucket, fileName,
+                        bucket, publishedFileName);
+            }
+
+            return amazonS3Client.getResourceUrl(bucket, publishedFileName);
+        } catch (SdkClientException ignored) {
+            return "";
         }
-
-        return amazonS3Client.getResourceUrl(bucket, publishedFileName);
     }
 
-    private String getPublishedFileName(String fileName) {
+    private String getPublishedFileName(String fileName) throws SdkClientException {
         var rawMetadata = amazonS3Client.getObject(bucket, fileName)
                 .getObjectMetadata()
                 .getRawMetadata();
@@ -46,8 +55,7 @@ public class S3Utils {
             var preExtension = fileName.substring(0, fileExtIndex);
             var fileExtension = fileName.substring(fileExtIndex);
             nameWithDateTime = preExtension + "_" + modifiedDateTime + fileExtension;
-        }
-        else {
+        } else {
             nameWithDateTime = fileName + "_" + modifiedDateTime;
         }
 

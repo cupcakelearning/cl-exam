@@ -10,6 +10,7 @@ import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.cupcake.learning.exam.base.repository.postgres.PublishedExamMetaDataRepository;
 import com.cupcake.learning.exam.question.model.entity.Question;
 import com.cupcake.learning.exam.question.repository.QuestionRepository;
+import com.cupcake.learning.exam.util.JsonUtils;
 import com.cupcake.learning.exam.util.PatchModelMapper;
 import com.cupcake.learning.exam.util.S3Utils;
 import graphql.kickstart.tools.GraphQLMutationResolver;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @Component
 public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     private final PatchModelMapper mapper;
+    private final JsonUtils jsonUtils;
     private final S3Utils s3Utils;
     private final QuestionRepository questionRepository;
     private final ExamRepository examRepository;
@@ -32,6 +35,7 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     private final PublishedExamRepository publishedExamRepository;
 
     public PublishedExamMutationResolver(PatchModelMapper mapper,
+                                         JsonUtils jsonUtils,
                                          S3Utils s3Utils,
                                          QuestionRepository questionRepository,
                                          ExamRepository examRepository,
@@ -39,6 +43,7 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
                                          PublishedExamMetaDataRepository publishedExamMetaDataRepository,
                                          PublishedExamRepository publishedExamRepository) {
         this.mapper = mapper;
+        this.jsonUtils = jsonUtils;
         this.s3Utils = s3Utils;
         this.questionRepository = questionRepository;
         this.examRepository = examRepository;
@@ -118,14 +123,17 @@ public class PublishedExamMutationResolver implements GraphQLMutationResolver {
     }
 
     private void publishQuestionDiagrams(List<QuestionDoc> questionDocs) {
-        questionDocs.stream()
-                .filter(questionDoc ->
-                        questionDoc.getDiagramLink() != null
-                                && !questionDoc.getDiagramLink().isBlank())
-                .forEach(questionDoc -> {
-                    var publishedLink = s3Utils.publishFile(questionDoc.getDiagramLink());
-                    questionDoc.setDiagramLink(publishedLink);
-                });
+        for (QuestionDoc doc : questionDocs) {
+            var contentWithUpdatedLinks = doc.getContent();
+            List<String> images = jsonUtils.extractImageLinksFromJsonText(doc.getContent());
+
+            for (String image : images) {
+                var publishedImage = s3Utils.publishFile(image.substring(1, image.length() - 1));
+                contentWithUpdatedLinks = contentWithUpdatedLinks.replace(image, publishedImage);
+            }
+
+            doc.setContent(contentWithUpdatedLinks);
+        }
     }
 
     private PublishedExamMetaData savePublishedExamMetaData(Exam exam, UUID publishedId) {

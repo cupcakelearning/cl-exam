@@ -33,8 +33,7 @@ type Question {
     id: ID
     authorId: ID
     type: QuestionType
-    text: String
-    diagramLink: String
+    content: String
     subject: String
     level: Int
     options: [Option]
