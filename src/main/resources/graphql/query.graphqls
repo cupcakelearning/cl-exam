@@ -9,7 +9,8 @@ type Query {
 
     #published exam
     publishedExamsForSale(first: Int!, after: String): PublishedExamMetaDataConnection @connection (for: "PublishedExamMetaData")
-    publishedExamsForExam(examId: ID!): [PublishedExamMetaData!]
+    getPublishedExamsForBaseExam(examId: ID!): [PublishedExamMetaData!]
+    getBaseExamForPublishedExam(publishedExamId: ID!): PublishedExamMetaData
 
     publishedExam(publishedExamId: ID!): PublishedExam!
 }

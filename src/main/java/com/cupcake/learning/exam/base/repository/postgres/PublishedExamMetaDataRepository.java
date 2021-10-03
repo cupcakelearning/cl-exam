@@ -19,4 +19,5 @@ public interface PublishedExamMetaDataRepository extends JpaRepository<Published
     Page<PublishedExamMetaData> findByIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc(boolean isActive, Pageable pageable, OffsetDateTime publishedDateTime);
 
     List<PublishedExamMetaData> findByExamId(UUID examId);
+    Optional<PublishedExamMetaData> findByPublishedExamId(UUID publishedExamId);
 }

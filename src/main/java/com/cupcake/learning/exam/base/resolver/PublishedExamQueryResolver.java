@@ -1,8 +1,10 @@
 package com.cupcake.learning.exam.base.resolver;
 
 import com.cupcake.learning.exam.base.model.entity.dynamo.PublishedExam;
+import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import com.cupcake.learning.exam.base.model.entity.postgres.PublishedExamMetaData;
 import com.cupcake.learning.exam.base.repository.dynamo.PublishedExamRepository;
+import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.cupcake.learning.exam.base.repository.postgres.PublishedExamMetaDataRepository;
 import com.cupcake.learning.exam.util.CursorEncoder;
 import com.cupcake.learning.exam.util.PatchModelMapper;
@@ -59,8 +61,13 @@ public class PublishedExamQueryResolver implements GraphQLQueryResolver {
         return new DefaultConnection<>(edges, pageInfo);
     }
 
-    public List<PublishedExamMetaData> publishedExamsForExam(UUID examId) {
+    public List<PublishedExamMetaData> getPublishedExamsForBaseExam(UUID examId) {
         return publishedExamMetaDataRepository.findByExamId(examId);
+    }
+
+    public PublishedExamMetaData getBaseExamForPublishedExam(UUID publishedExamId) {
+        return publishedExamMetaDataRepository.findByPublishedExamId(publishedExamId)
+                .orElseThrow(() -> new RuntimeException("Unable to find given published exam"));
     }
 
     public PublishedExam publishedExam(UUID publishedExamId) {

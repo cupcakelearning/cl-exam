@@ -24,8 +24,23 @@ query published_exam_pagination($first: Int!, $after: String) {
     }
 }
 
-query published_exam_get_published_exams($examId: ID!) {
-    publishedExamsForExam(examId: $examId) {
+query get_published_for_base($examId: ID!) {
+    getPublishedExamsForBaseExam(examId: $examId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}
+
+query get_base_for_published($publishedExamId: ID!) {
+    getBaseExamForPublishedExam(publishedExamId: $publishedExamId) {
         publishedExamId
         authorId
         name
@@ -52,8 +67,7 @@ query published_exam_get_content($publishedExamId: ID!) {
             id
             authorId
             type
-            text
-            diagramLink
+            content
             subject
             level
             options {
