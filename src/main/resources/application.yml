@@ -20,7 +20,7 @@ spring:
   user-datasource:
     platform: POSTGRESQL
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://cupcakelearning.cyqsklq9p761.ap-southeast-1.rds.amazonaws.com:5432/tmp_auth
+    url: jdbc:postgresql://cupcakelearning.cyqsklq9p761.ap-southeast-1.rds.amazonaws.com:5432/auth
     username: cupcakelearning
     password: cupcakelearning
     configuration:
