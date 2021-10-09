@@ -16,7 +16,7 @@ public class Exam {
     private String description;
     private BigDecimal price;
     private String subject;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "examLevel")
     private List<String> levels;
     private Integer durationInMinutes;
