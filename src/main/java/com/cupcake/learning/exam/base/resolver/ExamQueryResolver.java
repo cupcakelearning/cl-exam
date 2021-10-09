@@ -30,13 +30,13 @@ public class ExamQueryResolver implements GraphQLQueryResolver {
                 .orElseThrow(() -> new RuntimeException("Unable to find given exam"));
     }
 
-    public Connection<Exam> exams(int first, @Nullable String cursor) {
+    public Connection<Exam> exams(UUID authorId, int first, @Nullable String cursor) {
         Pageable pageable = PageRequest.of(0, first < 1 ? 20 : first);
         Page<Exam> pageResult;
         if (cursor == null || cursor.isBlank()) {
-            pageResult = examRepository.findByIsActiveOrderByIdAsc(true, pageable);
+            pageResult = examRepository.findByAuthorIdAndIsActiveOrderByIdAsc(authorId, true, pageable);
         } else {
-            pageResult = examRepository.findByIsActiveAndIdAfterOrderByIdAsc(true, pageable, cursorEncoder.decode(cursor));
+            pageResult = examRepository.findByAuthorIdAndIsActiveAndIdAfterOrderByIdAsc(authorId, true, pageable, cursorEncoder.decode(cursor));
         }
 
         List<Edge<Exam>> edges = pageResult.getContent()

@@ -16,6 +16,6 @@ public interface ExamRepository extends JpaRepository<Exam, UUID> {
     boolean existsByIsActiveAndIdAndAuthorId(boolean isActive, UUID id, UUID authorId);
 
     Optional<Exam> findByIsActiveAndId(boolean isActive, UUID id);
-    Page<Exam> findByIsActiveOrderByIdAsc(boolean isActive, Pageable pageable);
-    Page<Exam> findByIsActiveAndIdAfterOrderByIdAsc(boolean isActive, Pageable pageable, UUID id);
+    Page<Exam> findByAuthorIdAndIsActiveOrderByIdAsc(UUID authorId, boolean isActive, Pageable pageable);
+    Page<Exam> findByAuthorIdAndIsActiveAndIdAfterOrderByIdAsc(UUID authorId, boolean isActive, Pageable pageable, UUID id);
 }
