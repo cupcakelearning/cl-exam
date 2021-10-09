@@ -6,6 +6,7 @@
     "description": "exam description",
     "price": 345.6,
     "subject": "exam subject",
+    "levels": ["Primary 1", "Whatever this is"],
     "durationInMinutes": 90
   },
   "authorId": "c2d29867-3d0b-d497-9191-18a9d8ee7830",

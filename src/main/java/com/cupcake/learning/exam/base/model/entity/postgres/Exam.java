@@ -1,10 +1,8 @@
 package com.cupcake.learning.exam.base.model.entity.postgres;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +16,9 @@ public class Exam {
     private String description;
     private BigDecimal price;
     private String subject;
+    @ElementCollection
+    @CollectionTable(name = "examLevel")
+    private List<String> levels;
     private Integer durationInMinutes;
     private Boolean isActive;
 
@@ -67,6 +68,14 @@ public class Exam {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public List<String> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<String> levels) {
+        this.levels = levels;
     }
 
     public Integer getDurationInMinutes() {

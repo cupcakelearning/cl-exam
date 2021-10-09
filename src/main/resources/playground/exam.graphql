@@ -6,6 +6,7 @@ query exam($examId: ID!) {
         description
         price
         subject
+        levels
         durationInMinutes
     }
 }
@@ -21,6 +22,7 @@ query exam_pagination($authorId: ID!, $first: Int!, $after: String) {
                 description
                 price
                 subject
+                levels
                 durationInMinutes
             }
         }
@@ -40,6 +42,7 @@ mutation exam_add($authorId: ID!, $examInput: ExamInput!) {
         description
         price
         subject
+        levels
         durationInMinutes
     }
 }
@@ -51,6 +54,7 @@ mutation exam_update($examId: ID!, $authorId: ID!, $examInput: ExamInput!) {
         description
         price
         subject
+        levels
         durationInMinutes
     }
 }

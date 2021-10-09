@@ -5,6 +5,7 @@ type Exam {
     description: String
     price: Float
     subject: String
+    levels: [String!]
     durationInMinutes: Int
     isActive: Boolean
 }
@@ -14,5 +15,6 @@ input ExamInput {
     description: String
     price: Float
     subject: String
+    levels: [String!]
     durationInMinutes: Int
 }
