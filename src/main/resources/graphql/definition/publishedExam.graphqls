@@ -13,6 +13,7 @@ type PublishedExamMetaData {
     description: String
     price: Float
     subject: String
+    levels: [String!]
     durationInMinutes: Int
     publishedDateTime: DateTime
     isActive: Boolean
@@ -25,6 +26,7 @@ type PublishedExam {
     description: String
     price: Float
     subject: String
+    levels: [String!]
     durationInMinutes: Int
     questions: [Question!]
 }

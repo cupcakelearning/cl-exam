@@ -17,6 +17,7 @@ public class PublishedExam {
     private String description;
     private BigDecimal price;
     private String subject;
+    private List<String> levels;
     private Integer durationInMinutes;
     private List<QuestionDoc> questions;
 
@@ -73,6 +74,15 @@ public class PublishedExam {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    @DynamoDBAttribute
+    public List<String> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<String> levels) {
+        this.levels = levels;
     }
 
     @DynamoDBAttribute

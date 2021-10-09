@@ -8,6 +8,7 @@ query published_exam_pagination($first: Int!, $after: String) {
                 name
                 description
                 subject
+                levels
                 durationInMinutes
                 examId
                 price
@@ -31,6 +32,7 @@ query get_published_for_base($examId: ID!) {
         name
         description
         subject
+        levels
         durationInMinutes
         examId
         price
@@ -46,6 +48,7 @@ query get_base_for_published($publishedExamId: ID!) {
         name
         description
         subject
+        levels
         durationInMinutes
         examId
         price
@@ -62,6 +65,7 @@ query published_exam_get_content($publishedExamId: ID!) {
         description
         price
         subject
+        levels
         durationInMinutes
         questions {
             id
@@ -87,6 +91,7 @@ mutation exam_publish($examId: ID!, $authorId: ID!) {
         name
         description
         subject
+        levels
         durationInMinutes
         examId
         price
@@ -108,6 +113,7 @@ mutation exam_republish($publishedExamId: ID!, $authorId: ID!) {
         name
         description
         subject
+        levels
         durationInMinutes
         examId
         price

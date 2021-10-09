@@ -1,10 +1,9 @@
 package com.cupcake.learning.exam.base.model.entity.postgres;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +17,9 @@ public class PublishedExamMetaData {
     private String description;
     private BigDecimal price;
     private String subject;
+    @ElementCollection
+    @CollectionTable(name = "publishedexamLevel")
+    private List<String> levels;
     private Integer durationInMinutes;
     private OffsetDateTime publishedDateTime;
     private Boolean isActive;
@@ -76,6 +78,14 @@ public class PublishedExamMetaData {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public List<String> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<String> levels) {
+        this.levels = levels;
     }
 
     public Integer getDurationInMinutes() {
