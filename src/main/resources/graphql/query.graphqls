@@ -6,6 +6,7 @@ type Query {
 
     # exam question
     examQuestions(id: ID!): [ExamQuestion!]
+    examsContainingQuestion(questionId: ID!, first: Int!, after: String): ExamConnection @connection (for: "Exam")
 
     #published exam
     publishedExamsForSale(first: Int!, after: String): PublishedExamMetaDataConnection @connection (for: "PublishedExamMetaData")

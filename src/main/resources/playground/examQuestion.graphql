@@ -9,6 +9,29 @@ query examQuestions($examId: ID!) {
     }
 }
 
+query examsContainingQuestion($questionId: ID!, $first: Int!, $after: String) {
+    examsContainingQuestion(questionId: $questionId, first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                id
+                authorId
+                name
+                description
+                price
+                subject
+                durationInMinutes
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}
+
 mutation setExamQuestions($examId: ID!, $authorId: ID!, $questionIds: [ID!]!) {
     setExamQuestions(id: $examId, authorId: $authorId, questionIds: $questionIds) {
         id {
