@@ -15,7 +15,7 @@ public class QuestionDoc {
     private QuestionType type;
     private String content;
     private String subject;
-    private Integer level;
+    private String level;
     private List<Option> options;
 
     @DynamoDBHashKey
@@ -74,11 +74,11 @@ public class QuestionDoc {
     }
 
     @DynamoDBAttribute
-    public Integer getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 }

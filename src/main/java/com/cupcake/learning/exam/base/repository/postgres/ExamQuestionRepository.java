@@ -12,6 +12,8 @@ import java.util.UUID;
 @Repository
 public interface ExamQuestionRepository extends JpaRepository<ExamQuestion, ExamQuestion.ExamQuestionId> {
     List<ExamQuestion> findByIdExamId(UUID examId);
+    Page<ExamQuestion> findByIdExamIdOrderByPositionIndexAsc(UUID examId, Pageable pageable);
+    Page<ExamQuestion> findByIdExamIdAndPositionIndexAfterOrderByPositionIndexAsc(UUID examId, Pageable pageable, Integer positionIndex);
     Page<ExamQuestion> findByIdQuestionIdOrderByIdExamIdAsc(UUID questionId, Pageable pageable);
     Page<ExamQuestion> findByIdQuestionIdAndIdExamIdAfterOrderByIdExamIdAsc(UUID questionId, Pageable pageable, UUID examId);
 }

@@ -31,6 +31,15 @@ public class CursorEncoder {
     return OffsetDateTime.parse(new String(Base64.getDecoder().decode(cursor)));
   }
 
+  public ConnectionCursor createCursorWith(Integer integer) {
+    return new DefaultConnectionCursor(
+            Base64.getEncoder().encodeToString(integer.toString().getBytes(StandardCharsets.UTF_8)));
+  }
+
+  public Integer decodeIntegerCursor(String cursor) {
+    return Integer.parseInt(new String(Base64.getDecoder().decode(cursor)));
+  }
+
   public <T> ConnectionCursor getFirstCursorFrom(List<Edge<T>> edges) {
     return edges.isEmpty() ? null : edges.get(0).getCursor();
   }
