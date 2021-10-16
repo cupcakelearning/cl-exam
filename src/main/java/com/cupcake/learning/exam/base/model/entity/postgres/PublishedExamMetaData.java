@@ -17,7 +17,7 @@ public class PublishedExamMetaData {
     private String description;
     private BigDecimal price;
     private String subject;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "publishedexamLevel")
     private List<String> levels;
     private Integer durationInMinutes;
