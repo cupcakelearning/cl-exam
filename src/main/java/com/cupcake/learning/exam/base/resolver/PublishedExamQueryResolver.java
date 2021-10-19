@@ -37,15 +37,9 @@ public class PublishedExamQueryResolver implements GraphQLQueryResolver {
         this.publishedExamRepository = publishedExamRepository;
     }
 
-    public Connection<PublishedExamMetaData> publishedExamsForSale(int first, @Nullable String cursor) {
+    public Connection<PublishedExamMetaData> publishedExamsForSale(UUID authorId, int first, @Nullable String cursor) {
         Pageable pageable = PageRequest.of(0, first < 1 ? 20 : first);
-        Page<PublishedExamMetaData> pageResult;
-        if (cursor == null || cursor.isBlank()) {
-            pageResult = publishedExamMetaDataRepository.findByIsActiveOrderByPublishedDateTimeDesc(true, pageable);
-        } else {
-            pageResult = publishedExamMetaDataRepository.findByIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc
-                    (true, pageable, cursorEncoder.decodeDateTimeCursor(cursor));
-        }
+        Page<PublishedExamMetaData> pageResult = getPublishedExamMetaData(authorId, cursor, pageable);
 
         List<Edge<PublishedExamMetaData>> edges = pageResult.getContent()
                 .stream()
@@ -59,6 +53,28 @@ public class PublishedExamQueryResolver implements GraphQLQueryResolver {
                 pageResult.hasNext());
 
         return new DefaultConnection<>(edges, pageInfo);
+    }
+
+    private Page<PublishedExamMetaData> getPublishedExamMetaData(UUID authorId, String cursor, Pageable pageable) {
+        boolean hasAuthor = authorId != null;
+
+        if (cursor == null || cursor.isBlank()) {
+            if (hasAuthor) {
+                return publishedExamMetaDataRepository.findByAuthorIdAndIsActiveOrderByPublishedDateTimeDesc(authorId, true, pageable);
+            }
+            else {
+                return publishedExamMetaDataRepository.findByIsActiveOrderByPublishedDateTimeDesc(true, pageable);
+            }
+        } else {
+            if (hasAuthor) {
+                return publishedExamMetaDataRepository.findByAuthorIdAndIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc
+                        (authorId, true, pageable, cursorEncoder.decodeDateTimeCursor(cursor));
+            }
+            else {
+                return publishedExamMetaDataRepository.findByIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc
+                        (true, pageable, cursorEncoder.decodeDateTimeCursor(cursor));
+            }
+        }
     }
 
     public List<PublishedExamMetaData> getPublishedExamsForBaseExam(UUID examId) {
