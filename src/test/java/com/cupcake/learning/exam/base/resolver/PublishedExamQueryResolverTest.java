@@ -1,7 +1,6 @@
 package com.cupcake.learning.exam.base.resolver;
 
 import com.cupcake.learning.exam.base.model.entity.dynamo.PublishedExam;
-import com.cupcake.learning.exam.base.model.entity.postgres.ExamQuestion;
 import com.cupcake.learning.exam.base.model.entity.postgres.PublishedExamMetaData;
 import com.cupcake.learning.exam.util.CursorUtil;
 import com.graphql.spring.boot.test.GraphQLResponse;
@@ -21,7 +20,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 

@@ -1,16 +1,13 @@
 package com.cupcake.learning.exam.base.resolver;
 
-import com.cupcake.learning.exam.auth.repository.UserRepository;
 import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import com.cupcake.learning.exam.base.model.input.ExamInput;
-import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.IOException;
 import java.util.Map;

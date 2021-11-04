@@ -2,10 +2,7 @@ package com.cupcake.learning.exam.base.resolver;
 
 import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import com.cupcake.learning.exam.base.model.entity.postgres.ExamQuestion;
-import com.cupcake.learning.exam.base.repository.postgres.ExamQuestionRepository;
-import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.cupcake.learning.exam.question.model.entity.Question;
-import com.cupcake.learning.exam.question.repository.QuestionRepository;
 import com.cupcake.learning.exam.util.CursorUtil;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
@@ -13,10 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
 import java.util.List;

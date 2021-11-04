@@ -1,6 +1,5 @@
 package com.cupcake.learning.exam.base.resolver;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.cupcake.learning.exam.auth.repository.UserRepository;
 import com.cupcake.learning.exam.base.repository.dynamo.PublishedExamRepository;
 import com.cupcake.learning.exam.base.repository.postgres.ExamQuestionRepository;
