@@ -1,0 +1,9 @@
+query examQuestions($examId: ID!) {
+    examQuestions(id: $examId) {
+        id {
+            examId
+            questionId
+        }
+        positionIndex
+    }
+}

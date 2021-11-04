@@ -1,0 +1,26 @@
+query published_exam_by_author_pagination($authorId: ID, $first: Int!, $after: String) {
+    publishedExamsForSale(authorId: $authorId, first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                publishedExamId
+                authorId
+                name
+                description
+                subject
+                levels
+                durationInMinutes
+                examId
+                price
+                publishedDateTime
+                isActive
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}

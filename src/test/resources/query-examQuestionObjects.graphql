@@ -1,0 +1,26 @@
+query examQuestionObjects($examId: ID!, $first: Int!, $after: String) {
+    examQuestionObjects(id: $examId, first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                id
+                authorId
+                type
+                content
+                subject
+                level
+                options {
+                    text
+                    correctIndex
+                    isCorrect
+                }
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}

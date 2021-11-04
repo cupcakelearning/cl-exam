@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class CursorEncoder {
+public class CursorUtil {
   public ConnectionCursor createCursorWith(UUID id) {
     return new DefaultConnectionCursor(
         Base64.getEncoder().encodeToString(id.toString().getBytes(StandardCharsets.UTF_8)));

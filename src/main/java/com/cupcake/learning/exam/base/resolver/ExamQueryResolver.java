@@ -1,7 +1,7 @@
 package com.cupcake.learning.exam.base.resolver;
 
 import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
-import com.cupcake.learning.exam.util.CursorEncoder;
+import com.cupcake.learning.exam.util.CursorUtil;
 import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.*;
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class ExamQueryResolver implements GraphQLQueryResolver {
-    private final CursorEncoder cursorEncoder;
+    private final CursorUtil cursorUtil;
     private final ExamRepository examRepository;
 
-    public ExamQueryResolver(CursorEncoder cursorEncoder, ExamRepository examRepository) {
-        this.cursorEncoder = cursorEncoder;
+    public ExamQueryResolver(CursorUtil cursorUtil, ExamRepository examRepository) {
+        this.cursorUtil = cursorUtil;
         this.examRepository = examRepository;
     }
 
@@ -36,17 +36,17 @@ public class ExamQueryResolver implements GraphQLQueryResolver {
         if (cursor == null || cursor.isBlank()) {
             pageResult = examRepository.findByAuthorIdAndIsActiveOrderByIdAsc(authorId, true, pageable);
         } else {
-            pageResult = examRepository.findByAuthorIdAndIsActiveAndIdAfterOrderByIdAsc(authorId, true, pageable, cursorEncoder.decode(cursor));
+            pageResult = examRepository.findByAuthorIdAndIsActiveAndIdAfterOrderByIdAsc(authorId, true, pageable, cursorUtil.decode(cursor));
         }
 
         List<Edge<Exam>> edges = pageResult.getContent()
                 .stream()
-                .map(exam -> new DefaultEdge<>(exam, cursorEncoder.createCursorWith(exam.getId())))
+                .map(exam -> new DefaultEdge<>(exam, cursorUtil.createCursorWith(exam.getId())))
                 .collect(Collectors.toList());
 
         var pageInfo = new DefaultPageInfo(
-                cursorEncoder.getFirstCursorFrom(edges),
-                cursorEncoder.getLastCursorFrom(edges),
+                cursorUtil.getFirstCursorFrom(edges),
+                cursorUtil.getLastCursorFrom(edges),
                 false,
                 pageResult.hasNext());
 

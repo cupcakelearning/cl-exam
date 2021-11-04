@@ -1,12 +1,10 @@
 package com.cupcake.learning.exam.base.resolver;
 
 import com.cupcake.learning.exam.base.model.entity.dynamo.PublishedExam;
-import com.cupcake.learning.exam.base.model.entity.postgres.Exam;
 import com.cupcake.learning.exam.base.model.entity.postgres.PublishedExamMetaData;
 import com.cupcake.learning.exam.base.repository.dynamo.PublishedExamRepository;
-import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.cupcake.learning.exam.base.repository.postgres.PublishedExamMetaDataRepository;
-import com.cupcake.learning.exam.util.CursorEncoder;
+import com.cupcake.learning.exam.util.CursorUtil;
 import com.cupcake.learning.exam.util.PatchModelMapper;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.*;
@@ -23,16 +21,16 @@ import java.util.stream.Collectors;
 @Component
 public class PublishedExamQueryResolver implements GraphQLQueryResolver {
     private final PatchModelMapper mapper;
-    private final CursorEncoder cursorEncoder;
+    private final CursorUtil cursorUtil;
     private final PublishedExamMetaDataRepository publishedExamMetaDataRepository;
     private final PublishedExamRepository publishedExamRepository;
 
     public PublishedExamQueryResolver(PatchModelMapper mapper,
-                                      CursorEncoder cursorEncoder,
+                                      CursorUtil cursorUtil,
                                       PublishedExamMetaDataRepository publishedExamMetaDataRepository,
                                       PublishedExamRepository publishedExamRepository) {
         this.mapper = mapper;
-        this.cursorEncoder = cursorEncoder;
+        this.cursorUtil = cursorUtil;
         this.publishedExamMetaDataRepository = publishedExamMetaDataRepository;
         this.publishedExamRepository = publishedExamRepository;
     }
@@ -43,12 +41,12 @@ public class PublishedExamQueryResolver implements GraphQLQueryResolver {
 
         List<Edge<PublishedExamMetaData>> edges = pageResult.getContent()
                 .stream()
-                .map(metaData -> new DefaultEdge<>(metaData, cursorEncoder.createCursorWith(metaData.getPublishedDateTime())))
+                .map(metaData -> new DefaultEdge<>(metaData, cursorUtil.createCursorWith(metaData.getPublishedDateTime())))
                 .collect(Collectors.toList());
 
         var pageInfo = new DefaultPageInfo(
-                cursorEncoder.getFirstCursorFrom(edges),
-                cursorEncoder.getLastCursorFrom(edges),
+                cursorUtil.getFirstCursorFrom(edges),
+                cursorUtil.getLastCursorFrom(edges),
                 false,
                 pageResult.hasNext());
 
@@ -68,11 +66,11 @@ public class PublishedExamQueryResolver implements GraphQLQueryResolver {
         } else {
             if (hasAuthor) {
                 return publishedExamMetaDataRepository.findByAuthorIdAndIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc
-                        (authorId, true, pageable, cursorEncoder.decodeDateTimeCursor(cursor));
+                        (authorId, true, pageable, cursorUtil.decodeDateTimeCursor(cursor));
             }
             else {
                 return publishedExamMetaDataRepository.findByIsActiveAndPublishedDateTimeBeforeOrderByPublishedDateTimeDesc
-                        (true, pageable, cursorEncoder.decodeDateTimeCursor(cursor));
+                        (true, pageable, cursorUtil.decodeDateTimeCursor(cursor));
             }
         }
     }

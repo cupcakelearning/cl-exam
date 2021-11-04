@@ -1,0 +1,15 @@
+mutation exam_republish($publishedExamId: ID!, $authorId: ID!) {
+    republishExam(publishedExamId: $publishedExamId, authorId: $authorId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        levels
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}

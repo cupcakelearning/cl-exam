@@ -1,0 +1,11 @@
+mutation exam_update($examId: ID!, $authorId: ID!, $examInput: ExamInput!) {
+    updateExam(id: $examId, authorId: $authorId, input: $examInput) {
+        id
+        name
+        description
+        price
+        subject
+        levels
+        durationInMinutes
+    }
+}

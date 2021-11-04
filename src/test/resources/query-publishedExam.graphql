@@ -1,0 +1,25 @@
+query published_exam_get_content($publishedExamId: ID!) {
+    publishedExam(publishedExamId: $publishedExamId) {
+        id
+        authorId
+        name
+        description
+        price
+        subject
+        levels
+        durationInMinutes
+        questions {
+            id
+            authorId
+            type
+            content
+            subject
+            level
+            options {
+                text
+                correctIndex
+                isCorrect
+            }
+        }
+    }
+}

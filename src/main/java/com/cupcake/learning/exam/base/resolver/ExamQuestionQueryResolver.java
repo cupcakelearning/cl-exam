@@ -6,7 +6,7 @@ import com.cupcake.learning.exam.base.model.entity.postgres.ExamQuestion;
 import com.cupcake.learning.exam.base.repository.postgres.ExamQuestionRepository;
 import com.cupcake.learning.exam.base.repository.postgres.ExamRepository;
 import com.cupcake.learning.exam.question.repository.QuestionRepository;
-import com.cupcake.learning.exam.util.CursorEncoder;
+import com.cupcake.learning.exam.util.CursorUtil;
 import com.cupcake.learning.exam.util.PatchModelMapper;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.*;
@@ -22,18 +22,18 @@ import java.util.stream.Collectors;
 @Component
 public class ExamQuestionQueryResolver implements GraphQLQueryResolver {
     private final PatchModelMapper mapper;
-    private final CursorEncoder cursorEncoder;
+    private final CursorUtil cursorUtil;
     private final ExamRepository examRepository;
     private final QuestionRepository questionRepository;
     private final ExamQuestionRepository examQuestionRepository;
 
     public ExamQuestionQueryResolver(PatchModelMapper mapper,
-                                     CursorEncoder cursorEncoder,
+                                     CursorUtil cursorUtil,
                                      ExamRepository examRepository,
                                      QuestionRepository questionRepository,
                                      ExamQuestionRepository examQuestionRepository) {
         this.mapper = mapper;
-        this.cursorEncoder = cursorEncoder;
+        this.cursorUtil = cursorUtil;
         this.examRepository = examRepository;
         this.questionRepository = questionRepository;
         this.examQuestionRepository = examQuestionRepository;
@@ -55,7 +55,7 @@ public class ExamQuestionQueryResolver implements GraphQLQueryResolver {
         if (cursor == null || cursor.isBlank()) {
             pageResult = examQuestionRepository.findByIdExamIdOrderByPositionIndexAsc(id, pageable);
         } else {
-            pageResult = examQuestionRepository.findByIdExamIdAndPositionIndexAfterOrderByPositionIndexAsc(id, pageable, cursorEncoder.decodeIntegerCursor(cursor));
+            pageResult = examQuestionRepository.findByIdExamIdAndPositionIndexAfterOrderByPositionIndexAsc(id, pageable, cursorUtil.decodeIntegerCursor(cursor));
         }
 
         List<Edge<QuestionDoc>> edges = pageResult.getContent()
@@ -70,12 +70,12 @@ public class ExamQuestionQueryResolver implements GraphQLQueryResolver {
                             .orElse(null);
                 })
                 .filter(Objects::nonNull)
-                .map(entry -> new DefaultEdge<>(entry.getValue(), cursorEncoder.createCursorWith(entry.getKey())))
+                .map(entry -> new DefaultEdge<>(entry.getValue(), cursorUtil.createCursorWith(entry.getKey())))
                 .collect(Collectors.toList());
 
         var pageInfo = new DefaultPageInfo(
-                cursorEncoder.getFirstCursorFrom(edges),
-                cursorEncoder.getLastCursorFrom(edges),
+                cursorUtil.getFirstCursorFrom(edges),
+                cursorUtil.getLastCursorFrom(edges),
                 false,
                 pageResult.hasNext());
 
@@ -88,7 +88,7 @@ public class ExamQuestionQueryResolver implements GraphQLQueryResolver {
         if (cursor == null || cursor.isBlank()) {
             pageResult = examQuestionRepository.findByIdQuestionIdOrderByIdExamIdAsc(questionId, pageable);
         } else {
-            pageResult = examQuestionRepository.findByIdQuestionIdAndIdExamIdAfterOrderByIdExamIdAsc(questionId, pageable, cursorEncoder.decode(cursor));
+            pageResult = examQuestionRepository.findByIdQuestionIdAndIdExamIdAfterOrderByIdExamIdAsc(questionId, pageable, cursorUtil.decode(cursor));
         }
 
         List<Edge<Exam>> edges = pageResult.getContent()
@@ -97,13 +97,13 @@ public class ExamQuestionQueryResolver implements GraphQLQueryResolver {
                 .filter(Optional::isPresent)
                 .map(optionalExam -> {
                     var exam = optionalExam.get();
-                    return new DefaultEdge<>(exam, cursorEncoder.createCursorWith(exam.getId()));
+                    return new DefaultEdge<>(exam, cursorUtil.createCursorWith(exam.getId()));
                 })
                 .collect(Collectors.toList());
 
         var pageInfo = new DefaultPageInfo(
-                cursorEncoder.getFirstCursorFrom(edges),
-                cursorEncoder.getLastCursorFrom(edges),
+                cursorUtil.getFirstCursorFrom(edges),
+                cursorUtil.getLastCursorFrom(edges),
                 false,
                 pageResult.hasNext());
 

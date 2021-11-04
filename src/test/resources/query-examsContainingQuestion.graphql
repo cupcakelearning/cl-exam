@@ -1,0 +1,22 @@
+query examsContainingQuestion($questionId: ID!, $first: Int!, $after: String) {
+    examsContainingQuestion(questionId: $questionId, first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                id
+                authorId
+                name
+                description
+                price
+                subject
+                durationInMinutes
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}

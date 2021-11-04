@@ -1,0 +1,3 @@
+mutation exam_freeze($examId: ID!, $authorId: ID!) {
+    freezeExam(id: $examId, authorId: $authorId)
+}

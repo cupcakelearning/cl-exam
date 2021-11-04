@@ -1,0 +1,15 @@
+query get_published_for_base($examId: ID!) {
+    getPublishedExamsForBaseExam(examId: $examId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        levels
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}

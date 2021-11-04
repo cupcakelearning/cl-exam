@@ -1,0 +1,3 @@
+mutation exam_unpublish($publishedExamId: ID!, $authorId: ID!) {
+    unpublishExam(publishedExamId: $publishedExamId, authorId: $authorId)
+}

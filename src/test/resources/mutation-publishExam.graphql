@@ -1,0 +1,15 @@
+mutation exam_publish($examId: ID!, $authorId: ID!) {
+    publishExam(examId: $examId, authorId: $authorId) {
+        publishedExamId
+        authorId
+        name
+        description
+        subject
+        levels
+        durationInMinutes
+        examId
+        price
+        publishedDateTime
+        isActive
+    }
+}

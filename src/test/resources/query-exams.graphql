@@ -1,0 +1,23 @@
+query exam_pagination($authorId: ID!, $first: Int!, $after: String) {
+    exams(authorId: $authorId, first: $first, after: $after) {
+        edges {
+            cursor
+            node {
+                id
+                authorId
+                name
+                description
+                price
+                subject
+                levels
+                durationInMinutes
+            }
+        }
+        pageInfo {
+            hasPreviousPage
+            hasNextPage
+            startCursor
+            endCursor
+        }
+    }
+}

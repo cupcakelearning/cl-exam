@@ -1,0 +1,12 @@
+query exam($examId: ID!) {
+    exam(id: $examId) {
+        id
+        authorId
+        name
+        description
+        price
+        subject
+        levels
+        durationInMinutes
+    }
+}

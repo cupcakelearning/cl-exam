@@ -1,0 +1,9 @@
+mutation setExamQuestions($examId: ID!, $authorId: ID!, $questionIds: [ID!]!) {
+    setExamQuestions(id: $examId, authorId: $authorId, questionIds: $questionIds) {
+        id {
+            examId
+            questionId
+        }
+        positionIndex
+    }
+}

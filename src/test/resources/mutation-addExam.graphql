@@ -1,0 +1,11 @@
+mutation exam_add($authorId: ID!, $examInput: ExamInput!) {
+    addExam(authorId: $authorId, input: $examInput) {
+        id
+        name
+        description
+        price
+        subject
+        levels
+        durationInMinutes
+    }
+}
